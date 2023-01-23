@@ -1,0 +1,19 @@
+CREATE DATABASE tarefas_da_republica;
+
+CREATE TABLE chores (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    description TEXT,
+    "inCharge" VARCHAR NOT NULL REFERENCES roomies("name"),
+    "startDate" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    deadline TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    "isDone" BOOLEAN NOT NULL DEFAULT FALSE,
+    "doneBy" VARCHAR REFERENCES roomies("name") DEFAULT NULL,
+    "doneOn" TIMESTAMP WITHOUT TIME ZONE DEFAULT NULL
+);
+
+CREATE TABLE roomies (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL UNIQUE,
+    token TEXT NOT NULL
+);
