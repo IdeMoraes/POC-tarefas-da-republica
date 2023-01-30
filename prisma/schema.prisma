@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model chores {
+  id                               Int       @id @default(autoincrement())
+  name                             String    @db.VarChar
+  description                      String?
+  inCharge                         String    @db.VarChar
+  startDate                        DateTime  @default(now()) @db.Timestamp(6)
+  deadline                         DateTime  @db.Timestamp(6)
+  isDone                           Boolean   @default(false)
+  doneBy                           String?   @db.VarChar
+  doneOn                           DateTime? @db.Timestamp(6)
+  roomies_chores_doneByToroomies   roomies?  @relation("chores_doneByToroomies", fields: [doneBy], references: [name], onDelete: NoAction, onUpdate: NoAction)
+  roomies_chores_inChargeToroomies roomies   @relation("chores_inChargeToroomies", fields: [inCharge], references: [name], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model roomies {
+  id                              Int      @id @default(autoincrement())
+  name                            String   @unique @db.VarChar
+  token                           String
+  chores_chores_doneByToroomies   chores[] @relation("chores_doneByToroomies")
+  chores_chores_inChargeToroomies chores[] @relation("chores_inChargeToroomies")
+}

@@ -4,7 +4,7 @@ export type Chore = {
     description?: string,
     inCharge: string,
     startDate?: Date,
-    deadline: Date,
+    deadline: string|Date,
     isDone?: boolean,
     doneBy?: string,
     doneOn?: Date

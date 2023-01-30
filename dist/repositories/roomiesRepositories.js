@@ -34,71 +34,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { insertChore } from "../repositories/choresRepositorie.js";
-export function postChore(req, res) {
+import prisma from "../db.js";
+export function insertRoomie(roomie, token) {
     return __awaiter(this, void 0, void 0, function () {
-        var chore, error_1;
+        var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    chore = req.body;
-                    _a.label = 1;
+                case 0: return [4 /*yield*/, prisma.roomies.create({
+                        data: {
+                            name: roomie.name,
+                            token: token
+                        }
+                    })];
                 case 1:
-                    _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, insertChore(chore)];
-                case 2:
-                    _a.sent();
-                    res.sendStatus(201);
-                    return [3 /*break*/, 4];
-                case 3:
-                    error_1 = _a.sent();
-                    console.log(error_1);
-                    res.status(500).send("".concat(error_1.name, ": ").concat(error_1.message));
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    result = _a.sent();
+                    // console.log(result);
+                    return [2 /*return*/, result];
             }
         });
     });
 }
 ;
-/* export async function getChores(req: Request, res: Response){
-    try {
-        const result = await selectChores();
-        res.status(200).send(result.rows);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(`${error.name}: ${error.message}`);
-    }
-}; */
-/* export async function patchChore(req: Request, res: Response){
-    const choreId: number = parseInt(req.params.id);
-    const { authorization } = req.headers;
-    const token: string = authorization?.replace("Bearer ", "");
-    try {
-        const roomieName: string = (await getRoomieNameByToken(token)).rows[0].name;
-        await updateChore(roomieName, choreId);
-        res.sendStatus(200);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(`${error.name}: ${error.message}`);
-    }
-}; */
-/* export async function deleteChore(req: Request, res: Response){
-    const choreId: number = parseInt(req.params.id);
-    try {
-        await removeChore(choreId);
-        res.sendStatus(200);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(`${error.name}: ${error.message}`);
-    }
-}; */
-/* export async function showChoresDivision(req: Request, res: Response){
-    try {
-        const result = await countChores();
-        res.status(200).send(result.rows);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(`${error.name}: ${error.message}`);
-    }
-} */
+export function getRoomieNameByToken(token) {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, prisma.roomies.findMany({
+                        where: {
+                            token: token
+                        }
+                    })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result];
+            }
+        });
+    });
+}
+;

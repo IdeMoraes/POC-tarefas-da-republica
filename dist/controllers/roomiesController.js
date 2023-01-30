@@ -34,11 +34,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import connection from "../db.js";
 import { v4 as uuidv4 } from 'uuid';
-export function insertRoomie(req, res) {
+import { insertRoomie } from "../repositories/roomiesRepositories.js";
+export function postRoomie(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var roomie, token, result, error_1;
+        var roomie, token, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -47,9 +47,9 @@ export function insertRoomie(req, res) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, connection.query("INSERT INTO roomies (name, token) VALUES ($1, $2)", [roomie.name, token])];
+                    return [4 /*yield*/, insertRoomie(roomie, token)];
                 case 2:
-                    result = _a.sent();
+                    _a.sent();
                     res.status(201).send("Bem vindo(a), ".concat(roomie.name, ".\nSeu token \u00E9 ").concat(token));
                     return [3 /*break*/, 4];
                 case 3:

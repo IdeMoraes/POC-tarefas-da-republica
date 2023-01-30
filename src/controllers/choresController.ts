@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Chore } from "../protocols/Chore";
-import { countChores, insertChore, removeChore, selectChores, updateChore } from "../repositories/choresRepositorie.js";
+import { insertChore, removeChore, selectChores, updateChore } from "../repositories/choresRepositorie.js";
 import { getRoomieNameByToken } from "../repositories/roomiesRepositories.js";
 
 export async function postChore(req: Request, res: Response){
@@ -13,23 +13,21 @@ export async function postChore(req: Request, res: Response){
         res.status(500).send(`${error.name}: ${error.message}`);
     }
 };
-
 export async function getChores(req: Request, res: Response){
     try {
         const result = await selectChores();
-        res.status(200).send(result.rows);
+        res.status(200).send(result);
     } catch (error) {
         console.log(error);
         res.status(500).send(`${error.name}: ${error.message}`);
     }
 };
-
 export async function patchChore(req: Request, res: Response){
     const choreId: number = parseInt(req.params.id);
     const { authorization } = req.headers;
     const token: string = authorization?.replace("Bearer ", "");
     try {
-        const roomieName: string = (await getRoomieNameByToken(token)).rows[0].name;
+        const roomieName = await getRoomieNameByToken(token);
         await updateChore(roomieName, choreId);
         res.sendStatus(200);
     } catch (error) {
@@ -47,7 +45,7 @@ export async function deleteChore(req: Request, res: Response){
         res.status(500).send(`${error.name}: ${error.message}`);
     }
 };
-export async function showChoresDivision(req: Request, res: Response){
+/* export async function showChoresDivision(req: Request, res: Response){
     try {
         const result = await countChores();
         res.status(200).send(result.rows);
@@ -55,7 +53,7 @@ export async function showChoresDivision(req: Request, res: Response){
         console.log(error);
         res.status(500).send(`${error.name}: ${error.message}`);
     }
-}
+} */
 
 
 

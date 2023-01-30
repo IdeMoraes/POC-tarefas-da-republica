@@ -34,12 +34,82 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import connection from "../db.js";
-export default function selectChores() {
+import prisma from "../db.js";
+export function insertChore(chore) {
     return __awaiter(this, void 0, void 0, function () {
+        var result;
         return __generator(this, function (_a) {
-            return [2 /*return*/, connection.query("SELECT * FROM chores;")];
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, prisma.chores.create({
+                        data: {
+                            name: chore.name,
+                            description: chore.description,
+                            inCharge: chore.inCharge,
+                            deadline: chore.deadline
+                        }
+                    })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result];
+            }
         });
     });
 }
 ;
+export function selectChores() {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, prisma.chores.findMany()];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result];
+            }
+        });
+    });
+}
+;
+export function updateChore(roomieName, choreId) {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, prisma.chores.update({
+                        where: { id: choreId },
+                        data: {
+                            isDone: true,
+                            doneBy: roomieName,
+                            doneOn: new Date().toJSON()
+                        }
+                    })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result];
+            }
+        });
+    });
+}
+;
+export function removeChore(choreId) {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, prisma.chores["delete"]({ where: { id: choreId } })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result];
+            }
+        });
+    });
+}
+;
+/* export async function countChores():Promise<QueryResult>{
+    return connection.query(
+        `SELECT r.name, COUNT(c.id) AS "chores"
+        FROM roomies r
+        JOIN chores c ON c."inCharge"=r.name
+        GROUP BY r.id;`
+    );
+}; */ 
