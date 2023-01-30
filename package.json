@@ -7,8 +7,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/app.js",
-    "dev": "npx nodemon src/app.js"
+    "dev": "npx nodemon src/app.js",
+    "prisma:seed": "npx prisma db seed"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/IdeMoraes/POC-tarefas-da-republica.git"
