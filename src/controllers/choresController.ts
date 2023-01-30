@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Chore } from "../protocols/Chore";
-import { insertChore, removeChore, selectChores, updateChore } from "../repositories/choresRepositorie.js";
+import { countChores, insertChore, removeChore, selectChores, updateChore } from "../repositories/choresRepositorie.js";
 import { getRoomieNameByToken } from "../repositories/roomiesRepositories.js";
 
 export async function postChore(req: Request, res: Response){
@@ -45,15 +45,15 @@ export async function deleteChore(req: Request, res: Response){
         res.status(500).send(`${error.name}: ${error.message}`);
     }
 };
-/* export async function showChoresDivision(req: Request, res: Response){
+export async function showChoresDivision(req: Request, res: Response){
     try {
         const result = await countChores();
-        res.status(200).send(result.rows);
+        res.status(200).send(result);
     } catch (error) {
         console.log(error);
         res.status(500).send(`${error.name}: ${error.message}`);
     }
-} */
+}
 
 
 

@@ -32,11 +32,18 @@ export async function removeChore(choreId: number){
     const result = await prisma.chores.delete({where:{id: choreId}});
     return result;
 };
-/* export async function countChores(){
-    return connection.query(
-        `SELECT r.name, COUNT(c.id) AS "chores"
-        FROM roomies r
-        JOIN chores c ON c."inCharge"=r.name
-        GROUP BY r.id;`
-    );
-}; */
+export async function countChores(){
+    const result = await prisma.chores.groupBy({
+        by: ['inCharge'],
+        _count: {
+            id: true,
+        },
+        orderBy: {
+            _count: {
+              id: 'desc',
+            },
+        }
+    });
+    const answer = result.map((el)=>{return {roomie: el.inCharge, chores: el._count.id}})
+    return(answer);
+};
